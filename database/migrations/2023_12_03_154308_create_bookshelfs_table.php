@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('bookshelves', function (Blueprint $table) {
-            $table->bigInteger('id');
-            $table->string('code', 15);
+            $table->id();
+            $table->string('code', 100);
             $table->string('name');
             $table->timestamps();
         });

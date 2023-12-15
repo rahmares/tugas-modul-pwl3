@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function(){
-    Route::view('/roles', 'role')->name('role')->middleware(('role:pustakawan'));
+    // Route::view('/roles', 'role')->name('role')->middleware(('role:pustakawan'));
+    Route::get('/books', [BookController::class, 'index'])->name('book');
 });
 require __DIR__.'/auth.php';
