@@ -13,4 +13,16 @@ class Book extends Model
     public function bookshelf(): BelongsTo{
         return $this->belongsTo(Bookshelf::class);
     }
+
+    protected $fillable = [
+        'title',
+        'author',
+        'year',
+        'publisher',
+        'city',
+        'quantity',
+        'cover',
+        'bookshelf_id',
+        
+    ];
 }
