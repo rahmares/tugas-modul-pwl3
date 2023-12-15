@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BooksExport;
+use App\Imports\BooksImport;
 use App\Models\Book;
 use App\Models\Bookshelf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookController extends Controller
 {
@@ -114,6 +117,24 @@ class BookController extends Controller
 
         $pdf = Pdf::loadview('books.print', ['books' => $book]);
         return $pdf->download('data_buku.pdf');
+    }
+
+    public function export(){
+        return Excel::download(new BooksExport, 'book.xlsx');
+    }
+
+    public function import(Request $req){
+        $req->validate([
+            'file' => 'required|max:10000|mimes:xlsx, xls',
+        ]);
+        Excel::import(new BooksImport, $req->file('file'));
+
+        $notification = array(
+            'message' => 'import data berhasil dilakukan',
+            'alert-type' => 'succes'
+        );
+
+        return redirect()->route('book')->with($notification);
     }
 
 }
